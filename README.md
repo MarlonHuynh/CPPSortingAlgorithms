@@ -1,2 +1,1 @@
-Program that tests out different sorting algorithms
-Betty Huynh
+Program that tests out different sorting algorithms by Betty Huynh
