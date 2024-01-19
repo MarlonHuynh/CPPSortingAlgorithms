@@ -10,6 +10,7 @@ int* randomArray();
 void displayArray(int*, int); 
 void displayArray(int*, int, int);
 void bubbleSort(int*, int); 
+void selectionSort(int*, int);
 
 int main() {
     int* arr = randomArray();
@@ -84,6 +85,26 @@ void bubbleSort(int arr[], int size)
         for (j = 0; j < size - i - 1; j++) { 
             if (arr[j] > arr[j + 1]) { 
                 swap(arr[j], arr[j + 1]); 
+                displayArray(arr, size, 1);
+                atLeastOneSwapped = true;
+            }
+        }//Must be at least one swapped in the entire outer loop, else entire array is sorted
+        if (atLeastOneSwapped == false) {
+            break;
+        }
+    }
+}
+
+void selectionSort(int arr[], int size)
+{
+    displayArray(arr, size, 1);
+    int i, j;
+    bool atLeastOneSwapped;
+    for (i = 0; i < size - 1; i++) {
+        atLeastOneSwapped = false;
+        for (j = 0; j < size - i - 1; j++) {
+            if (arr[j] > arr[j + 1]) {
+                swap(arr[j], arr[j + 1]);
                 displayArray(arr, size, 1);
                 atLeastOneSwapped = true;
             }
