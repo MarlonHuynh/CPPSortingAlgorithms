@@ -31,28 +31,33 @@ int main() {
 }
 void displayMenu(int* arr) {
     int select;
+    cout << "-------------------------------------" << endl;
     cout << "Hello, welcome to Sorting Algorithms!" << endl;
-    cout << "-1 - Display current array" << endl; 
-    cout << "0 - Randomize Array" << endl;
-    cout << "Basic Sorting Algorithms" << endl; 
-    cout << "1 - Bubble Sort" << endl;
-    cout << "2 - Insertion Sort" << endl;
-    cout << "3 - Selection Sort" << endl;
-    cout << "Faster sorting Algorithms" << endl; 
-    cout << "4 - Shell Sort" << endl;
-    cout << "5 - Merge Sort" << endl;
-    cout << "6 - Quick Sort" << endl;
-    cout << "7 - Radix Sort" << endl;
-    cout << "Enter: ";
+    cout << "-------------------------------------" << endl;
+    cout << "Basic Array Functions" << endl;
+    cout << setw(5) << left << " " << "-1: Display current array" << endl;
+    cout << setw(5) << left << " " << "0: Randomize Array" << endl;
+    cout << "Basic Sorting Algorithms" << endl;
+    cout << setw(5) << left << " " << "1: Bubble Sort" << endl;
+    cout << setw(5) << left << " " << "2: Insertion Sort" << endl;
+    cout << setw(5) << left << " " << "3: Selection Sort" << endl;
+    cout << "Faster sorting Algorithms" << endl;
+    cout << setw(5) << left << " " << "4: Shell Sort" << endl;
+    cout << setw(5) << left << " " << "5: Merge Sort" << endl;
+    cout << setw(5) << left << " " << "6: Quick Sort" << endl;
+    cout << setw(5) << left << " " << "7: Radix Sort" << endl;
+    cout << "Enter a number: ";
     cin >> select;
     cout << endl; 
 
     switch (select) {
     
     case -1: 
+        cout << "Displaying current array!" << endl;
         displayArray(arr, 10); 
         break; 
     case 0: 
+        cout << "Generating and displaying random array!" << endl;
         arr = randomArray(); 
         displayArray(arr, 10); 
         break;
@@ -77,6 +82,7 @@ void displayMenu(int* arr) {
     displayMenu(arr); 
 }
 
+// TODO: Dynamic array sizes and max rand integers
 int* randomArray() {
     int* arr = new int[10];
     int num;
@@ -86,7 +92,6 @@ int* randomArray() {
     }
     return arr;
 }
-
 
 void displayArray(int* arr, int size) {
     for (int i = 0; i < size; i++) {
@@ -136,7 +141,7 @@ void bubbleSort(int* arr, int size)
         for (j = 0; j < size - i - 1; j++) { 
             if (arr[j] > arr[j + 1]) { 
                 
-                //Display each swapped element
+                // Display each swapped element
                 for (int k = 0; k < size; k++) {
                     if (k == j || k == j+1) {
                         cout << right << setw(5) << "[" + to_string(arr[k]) + "]";
@@ -149,7 +154,7 @@ void bubbleSort(int* arr, int size)
                 atLeastOneSwapped = true;
             }
         }
-        //Must be at least one swapped in the entire outer loop, else entire array is sorted
+        // Must be at least one swapped in the entire outer loop, else entire array is sorted
         if (atLeastOneSwapped == false) {
             break;
         }
@@ -201,14 +206,14 @@ void insertionSort(int* arr, int size) {
         }
         arr[j + 1] = key; // Move the key into the slot left behind
 
-        //Display each step
+        // Display each step
         for (int k = 0; k < size; k++) {
             cout << right << setw(5) << arr[k];
             if (k == i) {
                 cout << right << setw(5) << "|"; 
             }
         }
-        cout << endl; //End of display
+        cout << endl; // End of display
     }
 }
 
@@ -253,13 +258,12 @@ void selectionSort(int* arr, int size) {
         swap(arr[i], arr[minIndex]);
         
         // Display each step
-        cout << "The minimum element " << arr[i] << " is getting swapped with the i index element " << arr[minIndex] << endl;
         for (int k = 0; k < size; ++k) {
             if (k == minIndex) {
                 cout << right << setw(5) << "[" + to_string(arr[k]) + "]";
             } else { cout << right << setw(5) << arr[k]; }
         }
-        cout << endl;
+        cout << " The minimum element " << arr[i] << " is getting swapped with the i index element " << arr[minIndex] << endl; // End of display
     }
 }
 void shellSort(int* arr, int size)
