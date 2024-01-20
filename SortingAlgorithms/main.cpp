@@ -22,6 +22,7 @@ void shellSort(int*, int);
 void quickSort(int*, int);
 void mergeSort(int*, int);
 void radixSort(int*, int);
+void bozoSort(int*, int); 
 
 int main() {
     int* arr = randomArray();
@@ -46,6 +47,7 @@ void displayMenu(int* arr) {
     cout << setw(5) << left << " " << "5: Merge Sort" << endl;
     cout << setw(5) << left << " " << "6: Quick Sort" << endl;
     cout << setw(5) << left << " " << "7: Radix Sort" << endl;
+    cout << setw(5) << left << " " << "8: Bozo Sort" << endl;
     cout << "Enter a number: ";
     cin >> select;
     cout << endl; 
@@ -73,6 +75,13 @@ void displayMenu(int* arr) {
     case 4:
         break;
     case 5:
+        break;
+    case 6:
+        break;
+    case 7:
+        break;
+    case 8:
+        bozoSort(arr, 10); 
         break;
     default: 
         cout << "Error! Invalid input." << endl; 
@@ -284,4 +293,23 @@ void quickSort(int* arr, int size)
 void radixSort(int* arr, int size)
 {
 
+}
+
+void bozoSort(int* arr, int size)
+{
+    cout << "BOZO SORT - Randomize and pray." << endl;
+    cout << "Array before: " << endl;
+    displayArray(arr, size);
+
+    int randIndex; 
+    int temp; 
+    for (int i = 0; i < size; i++) {
+        randIndex = rand() % (sizeof(arr) / sizeof(arr[0])); 
+        temp = arr[i]; 
+        arr[i] = arr[randIndex]; 
+        arr[randIndex] = temp;
+    }
+
+    cout << "Array after: " << endl;
+    displayArray(arr, size);
 }
