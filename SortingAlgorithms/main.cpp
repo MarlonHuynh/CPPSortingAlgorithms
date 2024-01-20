@@ -1,12 +1,17 @@
-//Push test
+﻿/*
+Description: Test program used to test and visually display different types of sorting algorithms
+Author: Betty Huynh
+Date: January 2024
+*/
 
 #include <iostream>
 #include <cstdlib> // Include for rand()
-#include <iomanip> // set(w) 
-#include <string> //to_string(s)
+#include <iomanip> // setw(n) 
+#include <string> // to_string(s)
 
 using namespace std;
 
+// Prototypes
 void displayMenu(int*); 
 int* randomArray();
 void displayArray(int*, int); 
@@ -58,6 +63,7 @@ void displayMenu(int* arr) {
         insertionSort(arr, 10); 
         break;
     case 3:
+        selectionSort(arr, 10); 
         break;
     case 4:
         break;
@@ -88,20 +94,40 @@ void displayArray(int* arr, int size) {
     }
     cout << endl;
 }
-
+/*
+------THE BUBBLE SORT------
+• Compares adjacent items - exchanges them if
+out of order
+• When ordering successive pairs - largest item
+bubbles to end of the array
+• Requires several passes over the data – until
+one last pass where no exchange happens
+• Optimization – in successive passes, the
+largest element of previous pass and beyond
+can be ignored
+------ANALYSIS------
+• Analysis – algorithm efficiency
+    – Worst case (array is reverse sorted) is O(n^2)
+    – Best case (array already in order) is O(n)
+    – Average case is O(n2) :
+    • n-1, n-2, n-3, ..., 3, 2, 1, 0 comparisons for successive
+        passes ➔ (n(n+1))/2 operations
+    • Assuming 50% of comparisons resulted in swaps ➔
+    (n(n+1))/4 operations
+    • Total = add both ➔ (3/4)(n(n+1)) operations
+    • Expand, drop multipliers, lower order items ➔ O(n^2)
+• Analysis – when to use
+    – Average case of bubble sort is O(n2)
+    – Appropriate only for small n
+    – Or to verify is data is already sorted
+    – O(n2) grows rapidly
+• Could be a good choice when
+    – Both comparisons and swaps are not significant in
+    computing power costs
+*/
 void bubbleSort(int* arr, int size)
 {
-    //Display algorithm information 
-    cout << "BUBBLE SORT" << endl; 
-    cout << "Compares adjacent items and exchanges them if out of order" << endl; 
-    cout << "When ordering successive pairs largest item bubbles to end of the array" << endl;
-    cout << "Requires several passes over the data until one last pass where no exchange happens" << endl; 
-    cout << "Optimization: in successive passes, the largest element of previous pass and beyond can be ignored" << endl;
-    cout << "BUBBLE SORT COMPLEXITY" << endl; 
-    cout << "Worst case: O(n^2) - array is reverse sorted." << endl; 
-    cout << "Best case: O(n) - array is already sorted." << endl; 
-    cout << "Average case: O(n^2)" << endl << endl; 
-
+    cout << "BUBBLE SORT - LOOPS through ARRAY, SWAPPING any ADJACENT elements that are out of order, until sorted. O(n^2) COMPLEXITY\n[] symbol denotes number being swapped" << endl; 
     displayArray(arr, size); 
     int i, j;
     bool atLeastOneSwapped;
@@ -122,32 +148,52 @@ void bubbleSort(int* arr, int size)
                 swap(arr[j], arr[j + 1]); // Swap
                 atLeastOneSwapped = true;
             }
-        }//Must be at least one swapped in the entire outer loop, else entire array is sorted
+        }
+        //Must be at least one swapped in the entire outer loop, else entire array is sorted
         if (atLeastOneSwapped == false) {
             break;
         }
     }
 }
-
+/* 
+------THE INSERTION SORT------
+• Take each item from unsorted region
+    – Insert it into correct order in sorted region
+    – Sorted region in the front half of array, unsorted
+    region at the back
+    – Keep moving data from the back half to the front
+    half until it can move no longer – now placed in
+    rightful position
+    – Sometimes also called the ‘Reverse Bubble Sort’
+    – One pass through the array, multiple passes in the
+    reverse direction
+------ANALYSIS------
+• Analysis – algorithm efficiency
+    – Average case is O(n2) : if x comparisons in reverse
+    direction, then x-1 swaps
+• Assuming 50% of (n-1, n-2, n-3, ..., 3, 2, 1, 0)
+    comparisons + swaps for successive passes ➔
+    (n(n+1))/2 operations
+• Expand, drop multipliers, lower order items ➔ O(n2)
+    – Worst case (array is reverse sorted) is O(n2)
+• 100% comparisons and swaps = n(n+1) operations
+    – Best case (array already in order) is O(n)
+• Analysis – when to use
+    – Average case of insertion sort is O(n2)
+    – Appropriate only for small n
+    – Or to verify is data is already sorted
+    – O(n2) grows rapidly
+• Could be a good choice when
+    – Both comparisons and swaps are not significant in
+    computing power costs
+*/
 void insertionSort(int* arr, int size) {
 
-    // Display algorithm information
-    cout << "INSERTION SORT" << endl; 
-    cout << "Take each item from unsorted region and insert it into correct order in sorted region." << endl;
-    cout << "Sorted region in the front half of array, unsorted in the back." << endl;
-    cout << "Keep moving data from the back half to the front half until it can move no longer, now it's placed in the right position." << endl;
-    cout << "Sometimes called \"Reverse Bubble Sort\"." << endl;
-    cout << "One pass through the array, multiple passes in the reverse direction." << endl;
-    cout << "INSERTION SORT EFFICIENCY" << endl;
-    cout << "Worst case: O(n^2) - array is reverse sorted" << endl;
-    cout << "Best case: O(n)" << endl;
-    cout << "Average case: O(n^2)" << endl;
+    cout << "INSERTION SORT - LOOPS and SELECTS an element from UNSORTED region (does not need to be the smallest). INSERT it in the SORTED region in CORRECT order. O(n^2) COMPLEXITY\n| represents the division between sorted and unsorted\n The number to the right of | is the next unsorted item to be sorted" << endl;
     displayArray(arr, size);
-
     for (int i = 1; i < size; i++) {
         int key = arr[i]; // The second element is the first key.
         int j = i - 1; // j is the index left of the first key.
-
         // Move elements from 0 to j that are greater than key to one position ahead of their current position
         while (j >= 0 && arr[j] > key) { 
             arr[j + 1] = arr[j];
@@ -157,20 +203,65 @@ void insertionSort(int* arr, int size) {
 
         //Display each step
         for (int k = 0; k < size; k++) {
-            if (k == j + 1) {
-                cout << right << setw(7) << "[" + to_string(arr[k]) + "]"; 
+            cout << right << setw(5) << arr[k];
+            if (k == i) {
+                cout << right << setw(5) << "|"; 
             }
-            else { cout << right << setw(7) << arr[k]; }
         }
         cout << endl; //End of display
     }
 }
 
-void selectionSort(int* arr, int size)
-{
 
+/*
+------THE SELECTION SORT------
+• Find the smallest or the largest element in the
+array and put it in the right position
+– Temp var to hold the smallest or largest element
+– Update the temp var as needed when compared
+to all elements
+• When desired element found
+– Swap with the element at the first (smallest) or
+last (largest) location.
+– Repeat process for remaining array
+------ANALYSIS------
+• Analysis – algorithm efficiency
+– Average case is O(n2) :
+• n-1, n-2, n-3, ..., 3, 2, 1, 0 comparisons for successive passes ➔
+(n(n+1))/2 operations
+• One swap per pass, 50% passes swap ➔ n/2 operations
+• Total = add both ➔ n/2 + (n(n+1))/2 operations
+• Expand, drop multipliers, lower order items ➔ O(n2)
+– Worst case (array is reverse sorted) is O(n2)
+• Same comparisons as above, every pass has a swap
+– Best case (array already in order) is O(n2)
+• Same comparisons as above, no swaps
+*/
+void selectionSort(int* arr, int size) {
+    cout << "SELECTION SORT - LOOPS through to SELECT the LOWEST element, then PLACE it in the MINIMUM index, INCREASING the MINIMUM index for every pass. O(n^2) COMPLEXITY" << endl;
+    displayArray(arr, size);
+    for (int i = 0; i < size - 1; ++i) {
+        // Assume the current index is the minimum
+        int minIndex = i;
+        // Find the index of the minimum element in the unsorted part of the array
+        for (int j = i + 1; j < size; ++j) {
+            if (arr[j] < arr[minIndex]) {
+                minIndex = j;
+            }
+        }
+        // Swap the found minimum element with the first element
+        swap(arr[i], arr[minIndex]);
+        
+        // Display each step
+        cout << "The minimum element " << arr[i] << " is getting swapped with the i index element " << arr[minIndex] << endl;
+        for (int k = 0; k < size; ++k) {
+            if (k == minIndex) {
+                cout << right << setw(5) << "[" + to_string(arr[k]) + "]";
+            } else { cout << right << setw(5) << arr[k]; }
+        }
+        cout << endl;
+    }
 }
-
 void shellSort(int* arr, int size)
 {
 
