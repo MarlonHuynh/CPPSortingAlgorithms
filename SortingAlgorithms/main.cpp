@@ -73,12 +73,16 @@ void displayMenu(int* arr) {
         selectionSort(arr, 10); 
         break;
     case 4:
+        shellSort(arr, 10); 
         break;
     case 5:
+        mergeSort(arr, 10); 
         break;
     case 6:
+        quickSort(arr, 10); 
         break;
     case 7:
+        radixSort(arr, 10); 
         break;
     case 8:
         bozoSort(arr, 10); 
@@ -298,7 +302,33 @@ void selectionSort(int* arr, int size) {
 */
 void shellSort(int* arr, int size)
 {
-    cout << "SHELL SORT - RECURSIVE variation of INSERTION SORT, done by sorting SUBARRAYS of equally spaced GAPS/indices,\nresulting in an almost sorted array that we can use INSERION sort on. O(n^1.5) COMPLEXITY if n is a power of 2" << endl;
+    cout << "SHELL SORT - RECURSIVE variation of INSERTION SORT, done by sorting SUBARRAYS of equally spaced GAPS/indices,\nresulting in an almost sorted array that we can use INSERTION sort on. O(n^1.5) COMPLEXITY if n is a power of 2" << endl;
+    displayArray(arr, size);
+    // Loop over different gap sizes, starting with a big gap and reducing it
+    for (int gap = size / 2; gap > 0; gap /= 2)
+    {
+        cout << "Gap = " << gap << endl; // Display current gap size
+        // Loop over the elements with the current gap
+        for (int i = gap; i < size; i++)
+        {
+            int temp = arr[i]; // Store the current element
+            int j;
+            // Insertion sort within the subarray with the current gap
+            for (j = i; j >= gap && arr[j - gap] > temp; j -= gap)
+            {
+                // Display the current state of the array during the sorting process
+                for (int k = 0; k < size; ++k) {
+                    if (k == j || k == j - gap) {
+                        cout << right << setw(5) << "[" + to_string(arr[k]) + "]";
+                    }
+                    else { cout << right << setw(5) << arr[k]; }
+                }
+                cout << endl; // End of display
+                arr[j] = arr[j - gap]; // Shift elements to make space for the current element
+            }
+            arr[j] = temp; // Place the current element in its correct position
+        }
+    }
 }
 /*
 ------MERGE SORT------
