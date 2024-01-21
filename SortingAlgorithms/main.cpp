@@ -8,6 +8,7 @@ Date: January 2024
 #include <cstdlib> // Include for rand()
 #include <iomanip> // setw(n) 
 #include <string> // to_string(s)
+#include <vector>
 
 using namespace std;
 
@@ -143,32 +144,37 @@ can be ignored
     – Both comparisons and swaps are not significant in
     computing power costs
 */
-void bubbleSort(int* arr, int size)
-{
-    cout << "BUBBLE SORT - LOOPS through ARRAY, SWAPPING any ADJACENT elements that are out of order, until sorted. O(n^2) COMPLEXITY\n[] symbol denotes number being swapped" << endl; 
-    displayArray(arr, size); 
+// Function to perform Bubble Sort on an array
+void bubbleSort(int* arr, int size) {
+    // Introduction to Bubble Sort
+    cout << "BUBBLE SORT - LOOPS through ARRAY, SWAPPING any ADJACENT elements that are out of order, until sorted. O(n^2) COMPLEXITY\n[] symbol denotes number being swapped" << endl;
+    // Display the initial state of the array
+    displayArray(arr, size);
     int i, j;
     bool atLeastOneSwapped;
+    // Outer loop for each pass
     for (i = 0; i < size - 1; i++) {
         atLeastOneSwapped = false;
-        for (j = 0; j < size - i - 1; j++) { 
-            if (arr[j] > arr[j + 1]) { 
-                
-                // Display each swapped element
+        // Inner loop for pairwise comparisons
+        for (j = 0; j < size - i - 1; j++) {
+            // Compare adjacent elements
+            if (arr[j] > arr[j + 1]) {
+                // Visualize the elements being swapped
                 for (int k = 0; k < size; k++) {
-                    if (k == j || k == j+1) {
+                    if (k == j || k == j + 1) {
                         cout << right << setw(5) << "[" + to_string(arr[k]) + "]";
                     }
                     else { cout << right << setw(5) << arr[k]; }
-                } 
+                }
                 cout << endl; // End of display
-
-                swap(arr[j], arr[j + 1]); // Swap
+                // Swap the elements
+                swap(arr[j], arr[j + 1]);
                 atLeastOneSwapped = true;
             }
         }
-        // Must be at least one swapped in the entire outer loop, else entire array is sorted
-        if (atLeastOneSwapped == false) {
+        // Check if any swaps were made in the pass
+        if (!atLeastOneSwapped) {
+            // If no swaps, array is already sorted; break out early
             break;
         }
     }
@@ -348,9 +354,75 @@ void shellSort(int* arr, int size)
     – n operations to merge for each sub-array
 • An extremely fast sort for most situations
 */
-void mergeSort(int* arr, int size)
-{
 
+// MERGE SORT HELPER FUNCTION - Merge function to merge two sorted halves of the array
+void merge(int* arr, int left, int mid, int right) {
+    int n1 = mid - left + 1;
+    int n2 = right - mid;
+
+    // Create temporary arrays to hold the left and right halves
+    vector<int> leftArray(n1);
+    vector<int> rightArray(n2);
+    // Copy data to temporary arrays leftArray[] and rightArray[]
+    for (int i = 0; i < n1; i++)
+        leftArray[i] = arr[left + i];
+    for (int j = 0; j < n2; j++)
+        rightArray[j] = arr[mid + 1 + j];
+    // Merge the temporary arrays back into arr[l..r]
+    int i = 0, j = 0, k = left;
+    while (i < n1 && j < n2) {
+        if (leftArray[i] <= rightArray[j]) {
+            arr[k] = leftArray[i];
+            i++;
+        }
+        else {
+            arr[k] = rightArray[j];
+            j++;
+        }
+        k++;
+    }
+    // Copy the remaining elements of leftArray[], if there are any
+    while (i < n1) {
+        arr[k] = leftArray[i];
+        i++;
+        k++;
+    }
+    // Copy the remaining elements of rightArray[], if there are any
+    while (j < n2) {
+        arr[k] = rightArray[j];
+        j++;
+        k++;
+    }
+}
+
+// Merge Sort function
+void mergeSort(int* arr, int size) {
+    
+    // Display current array
+    cout << "Displaying array: "; 
+    displayArray(arr, size);
+
+    if (size > 1) {
+        // Find the middle point of the array
+        int mid = size / 2;
+
+        // Recursively sort the first and second halves
+        mergeSort(arr, mid);
+        mergeSort(arr + mid, size - mid);
+
+        // Merge the sorted halves
+        merge(arr, 0, mid - 1, size - 1);
+
+        // Print the array after merging
+        cout << "Merged array: [";
+        for (int i = 0; i < size; i++) {
+            cout << arr[i];
+            if (i < size - 1) {
+                cout << ", ";
+            }
+        }
+        cout << "]" << endl;
+    }
 }
 /*
 ------QUICK SORT------
@@ -373,10 +445,56 @@ recursive calls to quickSort.
     sorted) is O(n2)
     – Average case is O(n log n)
 */
-void quickSort(int* arr, int size)
-{
+// Function to partition the array and return the pivot index
+int partition(int* arr, int low, int high) {
+    int pivot = arr[high];  // Choose the pivot as the last element
+    int i = low - 1;        // Index of the smaller element
 
+    // Iterate through the array and rearrange elements
+    for (int j = low; j <= high - 1; j++) {
+        if (arr[j] <= pivot) {
+            i++;
+            swap(arr[i], arr[j]);
+        }
+    }
+
+    // Swap the pivot element to its correct position
+    swap(arr[i + 1], arr[high]);
+
+    // Print the array after partitioning with square brackets around the pivot
+    cout << "After partitioning with pivot " << arr[i + 1] << ": [";
+    for (int k = low; k <= high; k++) {
+        if (k == i + 1) {
+            cout << "[" << arr[k] << "]";
+        }
+        else {
+            cout << arr[k];
+        }
+        if (k < high) {
+            cout << ", ";
+        }
+    }
+    cout << "]" << endl;
+    return i + 1;  // Return the pivot index
 }
+
+// Function to implement the QuickSort algorithm
+void quickSort(int* arr, int low, int high) {
+    if (low < high) {
+        // Find the pivot index such that elements smaller than pivot are on the left
+        // and elements greater than pivot are on the right
+        int pivotIndex = partition(arr, low, high);
+        // Recursively sort the subarrays
+        quickSort(arr, low, pivotIndex - 1);
+        quickSort(arr, pivotIndex + 1, high);
+    }
+}
+// Wrapper function to call the quickSort function
+void quickSort(int* arr, int size) {
+    quickSort(arr, 0, size - 1);
+    displayArray(arr, size);
+}
+
 /*
 ------RADIX SORT------
 • Different from other sorts
@@ -398,11 +516,69 @@ void quickSort(int* arr, int size)
 • More appropriate for chain of linked lists than
     for an array
 */
-void radixSort(int* arr, int size)
-{
-
+// A utility function to get the maximum value in arr[]
+int getMax(int arr[], int size) {
+    int max = arr[0];
+    for (int i = 1; i < size; i++) {
+        if (arr[i] > max) {
+            max = arr[i];
+        }
+    }
+    return max;
 }
 
+// A function to perform counting sort based on the digit represented by exp
+void countSort(int arr[], int size, int exp) {
+    const int range = 10;
+    vector<int> output(size);
+    int count[range] = { 0 };
+
+    // Store count of occurrences in count[]
+    for (int i = 0; i < size; i++) {
+        count[(arr[i] / exp) % 10]++;
+    }
+
+    // Change count[i] so that count[i] now contains the actual position of this digit in output[]
+    for (int i = 1; i < range; i++) {
+        count[i] += count[i - 1];
+    }
+
+    // Build the output array
+    for (int i = size - 1; i >= 0; i--) {
+        output[count[(arr[i] / exp) % 10] - 1] = arr[i];
+        count[(arr[i] / exp) % 10]--;
+    }
+
+    // Copy the output array to arr[], so that arr[] now contains sorted numbers according to the current digit
+    for (int i = 0; i < size; i++) {
+        arr[i] = output[i];
+    }
+
+    // Print the array after sorting based on the current digit
+    cout << "After sorting with digit " << exp << ": [";
+    for (int i = 0; i < size; i++) {
+        cout << arr[i];
+        if (i < size - 1) {
+            cout << ", ";
+        }
+    }
+    cout << "]" << endl;
+}
+
+// The main function to sort arr[] of size using Radix Sort
+void radixSort(int* arr, int size) {
+    // Find the maximum number to know the number of digits
+    int max = getMax(arr, size);
+
+    // Do counting sort for every digit
+    for (int exp = 1; max / exp > 0; exp *= 10) {
+        countSort(arr, size, exp);
+    }
+}
+
+/*
+------BOGO SORT------
+*/
 void bozoSort(int* arr, int size)
 {
     cout << "BOZO SORT - Randomize and pray." << endl;
