@@ -275,21 +275,99 @@ void selectionSort(int* arr, int size) {
         cout << " The minimum element " << arr[i] << " is getting swapped with the i index element " << arr[minIndex] << endl; // End of display
     }
 }
+/*
+------SHELL SORT------
+• A variation of the insertion sort
+    – But faster than O(n2)
+• Done by sorting subarrays of equally spaced
+    indices
+• Instead of moving to an adjacent location an
+    element moves several locations away
+    – Results in an almost sorted array
+    – This array sorted efficiently with ordinary insertion
+    sort
+------ANALYSIS------
+• Efficiency is O(n2) for worst case
+• If n is a power of 2
+    – Average-case behavior is O(n1.5)
+• Shell sort uses insertion sort repeatedly.
+• Initial sorts are much smaller, the later sorts
+    are on arrays that are partially sorted, the
+    final sort is on an array that is almost
+    entirely sorted.
+*/
 void shellSort(int* arr, int size)
 {
-
+    cout << "SHELL SORT - RECURSIVE variation of INSERTION SORT, done by sorting SUBARRAYS of equally spaced GAPS/indices,\nresulting in an almost sorted array that we can use INSERION sort on. O(n^1.5) COMPLEXITY if n is a power of 2" << endl;
 }
-
+/*
+------MERGE SORT------
+• A divide-and-conquer algorithm
+• Partitions an array into sub-arrays ➔ until
+    sub-array size of 1,
+• Then merges two successive sub-arrays by
+    comparing items and inserting appropriately
+    into a combined array,
+• Repeat the process backwards, i.e. merge this
+    combined array with its successor
+• Well suited for recursion
+------ANALYSIS------
+• Efficiency is O(n*log2(n)) for any case
+    – log2 (n) operations to successively divide into
+    sub-arrays for merge
+    – n operations to merge for each sub-array
+• An extremely fast sort for most situations
+*/
 void mergeSort(int* arr, int size)
 {
 
 }
-
+/*
+------QUICK SORT------
+• Another divide-and-conquer algorithm
+• Partitions an array into items that are
+    – Less than or equal to the pivot and
+    – Those that are greater than or equal to the pivot
+• Partitioning places pivot in its correct position
+    within the array
+    – Place chosen pivot in either theArray[last] or
+    theArray[first] before partitioning
+    – Also suited for recursion
+------ANALYSIS------
+• Analysis
+    – Partitioning is an O(n) task
+    – There are either log2 n or 1 + log2 n levels of
+recursive calls to quickSort.
+• We conclude
+    – Worst case (either array is sorted or reverse
+    sorted) is O(n2)
+    – Average case is O(n log n)
+*/
 void quickSort(int* arr, int size)
 {
 
 }
-
+/*
+------RADIX SORT------
+• Different from other sorts
+    – Does not compare entries in an array
+• Begins by organizing data (say strings)
+    according to least significant letters
+    – Then combine the groups
+• Next form groups using next least signficant
+    letter
+------ANALYSIS------
+• Analysis
+    – Requires n moves each time it forms groups
+    – n moves to combine again into one group
+    – Performs these 2  n moves d times
+    – Thus requires 2  n  d moves
+• Radix sort is of order O(n)
+    – Useful for limited types of data since data has to
+    be same width
+• More appropriate for chain of linked lists than
+    for an array
+*/
 void radixSort(int* arr, int size)
 {
 
@@ -304,7 +382,7 @@ void bozoSort(int* arr, int size)
     int randIndex; 
     int temp; 
     for (int i = 0; i < size; i++) {
-        randIndex = rand() % (sizeof(arr) / sizeof(arr[0])); 
+        randIndex = rand() % size; 
         temp = arr[i]; 
         arr[i] = arr[randIndex]; 
         arr[randIndex] = temp;
