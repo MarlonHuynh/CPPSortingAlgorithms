@@ -1,1 +1,1 @@
-Program that tests out different sorting algorithms by Betty Huynh
+All basic sorting algorithms and their detailed description (runtime complexity, big O notation, etc) including bubble sort, selection sort, shell sort, quick sort, merge sort, radix sort, and bogo sort. 
